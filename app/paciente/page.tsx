@@ -1,45 +1,29 @@
 /**
  * Dashboard del paciente.
  * Server Component: verifica la sesión y el rol EN EL SERVIDOR antes de renderizar.
- *
- * Protecciones:
- * - Sin sesión → redirige a /login
- * - Sesión con role = 'medico' → redirige a /medico
- * - Solo accede alguien con role = 'paciente'
  */
 import { LogoutButton } from "@/app/components/LogoutButton";
 import { createClient } from "@/lib/supabase/server";
+import Link from "next/link";
 import { redirect } from "next/navigation";
 
 export default async function PacientePage() {
   const supabase = await createClient();
 
-  // getUser() verifica el JWT con los servidores de Supabase.
-  // Es más seguro que getSession() para proteger rutas.
   const {
     data: { user },
     error: userError,
   } = await supabase.auth.getUser();
 
-  if (!user || userError) {
-    redirect("/login");
-  }
+  if (!user || userError) redirect("/login");
 
-  // Obtener perfil para verificar el rol
-  const { data: profile, error: profileError } = await supabase
+  const { data: profile } = await supabase
     .from("profiles")
     .select("display_name, role")
     .eq("id", user.id)
-    .single();
+    .maybeSingle();
 
-  if (profileError || !profile) {
-    redirect("/login");
-  }
-
-  // Si el usuario es médico, redirigir a su dashboard
-  if (profile.role !== "paciente") {
-    redirect("/medico");
-  }
+  if (!profile || profile.role !== "paciente") redirect("/medico");
 
   return (
     <main className="min-h-screen flex flex-col">
@@ -48,9 +32,7 @@ export default async function PacientePage() {
         <div className="max-w-5xl mx-auto flex items-center justify-between">
           <span className="text-lg font-bold text-rose-700">EndoTrack</span>
           <div className="flex items-center gap-3">
-            <span className="text-sm text-slate-500">
-              {profile.display_name}
-            </span>
+            <span className="text-sm text-slate-500">{profile.display_name}</span>
             <LogoutButton />
           </div>
         </div>
@@ -71,37 +53,46 @@ export default async function PacientePage() {
           </p>
         </div>
 
-        {/* Tarjetas — próximamente */}
+        {/* Tarjetas */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
-          {[
-            {
-              icon: "📋",
-              title: "Registrar síntomas",
-              desc: "Próximamente",
-            },
-            {
-              icon: "🩺",
-              title: "Describir el dolor",
-              desc: "Próximamente",
-            },
-            {
-              icon: "📄",
-              title: "Mis reportes",
-              desc: "Próximamente",
-            },
-          ].map((item) => (
-            <div
-              key={item.title}
-              className="rounded-2xl bg-white border border-rose-100 shadow-sm p-6 flex flex-col gap-2 opacity-60"
-            >
-              <span className="text-2xl">{item.icon}</span>
-              <h2 className="font-semibold text-slate-700">{item.title}</h2>
-              <p className="text-xs text-slate-400">{item.desc}</p>
-            </div>
-          ))}
+
+          {/* ── Registrar síntomas — activo ── */}
+          <Link
+            href="/paciente/registrar-dolor"
+            className="rounded-2xl bg-white border border-rose-200 shadow-sm p-6 flex flex-col gap-2 hover:shadow-md hover:border-rose-300 transition-all group"
+          >
+            <span className="text-2xl">📋</span>
+            <h2 className="font-semibold text-slate-800 group-hover:text-rose-700 transition-colors">
+              Registrar síntomas
+            </h2>
+            <p className="text-xs text-slate-500">
+              Anotá un episodio de dolor para compartir con tu médico.
+            </p>
+          </Link>
+
+          {/* ── Historial de síntomas — activo ── */}
+          <Link
+            href="/paciente/historial"
+            className="rounded-2xl bg-white border border-rose-200 shadow-sm p-6 flex flex-col gap-2 hover:shadow-md hover:border-rose-300 transition-all group"
+          >
+            <span className="text-2xl">🗂️</span>
+            <h2 className="font-semibold text-slate-800 group-hover:text-rose-700 transition-colors">
+              Historial de síntomas
+            </h2>
+            <p className="text-xs text-slate-500">
+              Revisá todos tus episodios registrados.
+            </p>
+          </Link>
+
+          {/* ── Mis reportes — próximamente ── */}
+          <div className="rounded-2xl bg-white border border-rose-100 shadow-sm p-6 flex flex-col gap-2 opacity-50 cursor-not-allowed">
+            <span className="text-2xl">📄</span>
+            <h2 className="font-semibold text-slate-700">Mis reportes</h2>
+            <p className="text-xs text-slate-400">Próximamente</p>
+          </div>
+
         </div>
 
-        {/* Aviso */}
         <p className="mt-10 text-xs text-slate-400 text-center">
           EndoTrack no realiza diagnósticos ni reemplaza la consulta médica.
         </p>
