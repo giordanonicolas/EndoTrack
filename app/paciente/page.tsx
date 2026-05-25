@@ -84,12 +84,19 @@ export default async function PacientePage() {
             </p>
           </Link>
 
-          {/* ── Mis reportes — próximamente ── */}
-          <div className="rounded-2xl bg-white border border-rose-100 shadow-sm p-6 flex flex-col gap-2 opacity-50 cursor-not-allowed">
+          {/* ── Mis reportes — activo ── */}
+          <Link
+            href="/paciente/reporte"
+            className="rounded-2xl bg-white border border-rose-200 shadow-sm p-6 flex flex-col gap-2 hover:shadow-md hover:border-rose-300 transition-all group"
+          >
             <span className="text-2xl">📄</span>
-            <h2 className="font-semibold text-slate-700">Mis reportes</h2>
-            <p className="text-xs text-slate-400">Próximamente</p>
-          </div>
+            <h2 className="font-semibold text-slate-800 group-hover:text-rose-700 transition-colors">
+              Mis reportes
+            </h2>
+            <p className="text-xs text-slate-500">
+              Resumen de tus registros para compartir en consulta.
+            </p>
+          </Link>
 
         </div>
 
