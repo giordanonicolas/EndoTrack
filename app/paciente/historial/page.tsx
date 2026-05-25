@@ -144,6 +144,36 @@ function PainCard({ record }: { record: PainRecord }) {
         </div>
       )}
 
+      {/* Descripción para el médico */}
+      {(record.confirmed_summary || record.generated_summary) && (
+        <div
+          className={`rounded-xl border px-4 py-4 flex flex-col gap-2 ${
+            record.confirmed_summary
+              ? "bg-violet-50 border-violet-200"
+              : "bg-slate-50 border-slate-200"
+          }`}
+        >
+          <p className="text-xs font-semibold uppercase tracking-wide">
+            {record.confirmed_summary ? (
+              <span className="text-violet-700">
+                ✅ Descripción para compartir con el médico
+              </span>
+            ) : (
+              <span className="text-slate-400">
+                Descripción generada no confirmada
+              </span>
+            )}
+          </p>
+          <p className="text-sm text-slate-700 leading-relaxed whitespace-pre-wrap">
+            {record.confirmed_summary ?? record.generated_summary}
+          </p>
+          <p className="text-xs text-slate-400 mt-1">
+            Esta descripción no es un diagnóstico. Es información registrada
+            por la paciente para facilitar la comunicación con profesionales de salud.
+          </p>
+        </div>
+      )}
+
       {/* Timestamp discreto */}
       <p className="text-xs text-slate-300 text-right">
         Guardado el {new Date(record.created_at).toLocaleDateString("es-AR")}
