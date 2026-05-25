@@ -54,7 +54,7 @@ export default async function PacientePage() {
         </div>
 
         {/* Tarjetas */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
 
           {/* ── Registrar síntomas — activo ── */}
           <Link
@@ -95,6 +95,20 @@ export default async function PacientePage() {
             </h2>
             <p className="text-xs text-slate-500">
               Resumen de tus registros para compartir en consulta.
+            </p>
+          </Link>
+
+          {/* ── Mis médicos — activo ── */}
+          <Link
+            href="/paciente/vincular"
+            className="rounded-2xl bg-white border border-rose-200 shadow-sm p-6 flex flex-col gap-2 hover:shadow-md hover:border-rose-300 transition-all group"
+          >
+            <span className="text-2xl">🩺</span>
+            <h2 className="font-semibold text-slate-800 group-hover:text-rose-700 transition-colors">
+              Mis médicos
+            </h2>
+            <p className="text-xs text-slate-500">
+              Invitá a un profesional para compartir tus registros.
             </p>
           </Link>
 
