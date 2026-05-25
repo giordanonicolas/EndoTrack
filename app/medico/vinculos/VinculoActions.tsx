@@ -6,6 +6,7 @@
 
 import { createClient } from "@/lib/supabase/client";
 import type { LinkWithPatient } from "@/lib/types/link";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
@@ -150,14 +151,22 @@ export function VinculoActions({ userId, pending, accepted, revoked }: Props) {
                   </p>
                   <p className="text-xs text-slate-400">{link.patient?.email}</p>
                 </div>
-                <button
-                  type="button"
-                  onClick={() => updateStatus(link.id, "revoked")}
-                  disabled={loadingId === link.id}
-                  className="rounded-full border border-red-200 px-3 py-1.5 text-xs font-medium text-red-600 hover:bg-red-50 transition-colors disabled:opacity-50"
-                >
-                  {loadingId === link.id ? "..." : "Revocar"}
-                </button>
+                <div className="flex items-center gap-2">
+                  <Link
+                    href={`/medico/pacientes/${link.patient_id}/reporte`}
+                    className="rounded-full bg-violet-600 px-3 py-1.5 text-xs font-semibold text-white hover:bg-violet-700 transition-colors"
+                  >
+                    Ver reporte
+                  </Link>
+                  <button
+                    type="button"
+                    onClick={() => updateStatus(link.id, "revoked")}
+                    disabled={loadingId === link.id}
+                    className="rounded-full border border-red-200 px-3 py-1.5 text-xs font-medium text-red-600 hover:bg-red-50 transition-colors disabled:opacity-50"
+                  >
+                    {loadingId === link.id ? "..." : "Revocar"}
+                  </button>
+                </div>
               </div>
             ))}
           </div>
