@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 const features = [
   {
     icon: "📋",
@@ -48,9 +50,20 @@ export default function Home() {
           reportes claros para compartir con profesionales de salud.
         </p>
 
-        <button className="rounded-full bg-rose-600 px-8 py-3.5 text-white font-semibold text-base shadow-sm hover:bg-rose-700 transition-colors">
-          Ingresar a EndoTrack
-        </button>
+        <div className="flex flex-col sm:flex-row gap-3">
+          <Link
+            href="/login"
+            className="rounded-full bg-rose-600 px-8 py-3.5 text-white font-semibold text-base shadow-sm hover:bg-rose-700 transition-colors text-center"
+          >
+            Ingresar a EndoTrack
+          </Link>
+          <Link
+            href="/registro"
+            className="rounded-full border border-rose-300 px-8 py-3.5 text-rose-700 font-semibold text-base hover:bg-rose-50 transition-colors text-center"
+          >
+            Crear cuenta
+          </Link>
+        </div>
       </section>
 
       {/* Aviso médico */}
