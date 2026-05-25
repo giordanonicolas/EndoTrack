@@ -1,5 +1,3 @@
-import { SupabaseStatus } from "@/app/components/SupabaseStatus";
-
 const features = [
   {
     icon: "📋",
@@ -66,9 +64,6 @@ export default function Home() {
           </p>
         </div>
       </section>
-
-      {/* Verificación de conexión con Supabase — solo desarrollo */}
-      <SupabaseStatus />
 
       {/* Tarjetas de funcionalidades */}
       <section className="w-full px-6 pb-20 max-w-5xl mx-auto">
